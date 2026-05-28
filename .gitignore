@@ -1,7 +1,12 @@
 .build
 .env.prod
 .tmp
+dev.db
+dev.db-*
 
 
 backups/
 plans/
+
+.vscode
+.cursor

@@ -1,0 +1,21 @@
+[Unit]
+Description=Dotapro API
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=deploy
+WorkingDirectory=/opt/dotapro
+EnvironmentFile=/opt/dotapro/.env
+ExecStart=/opt/dotapro/bin/api
+Restart=on-failure
+RestartSec=5s
+NoNewPrivileges=true
+ProtectSystem=strict
+ReadWritePaths=/opt/dotapro/data
+ProtectHome=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

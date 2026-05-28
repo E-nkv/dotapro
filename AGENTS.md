@@ -4,32 +4,28 @@ This file provides guidance to agents when working with code in this repository.
 
 ## Stack
 - **UI**: React 19 + TypeScript, Vite, Tailwind CSS v4, TanStack Router/Query
-- **API**: Go 1.25 (Lambda), Bun + pgx for PostgreSQL
-- **Scraper**: Go 1.25 (Lambda), AWS SDK v2, cleanenv, zerolog
-- **Database**: PostgreSQL with golang-migrate
+- **API**: Go 1.25, Chi router, Bun ORM, SQLite with FTS5
+- **Scraper**: Go 1.25, reads OpenDota API, writes to SQLite
+- **Database**: SQLite with golang-migrate (WAL mode, FTS5 trigram tokenizer)
 
 ## Commands
 
 ### Root
-- `make build` - Build both Lambda functions (API + Scraper) for Linux ARM64
-- `make deploy` - Deploy both to AWS Lambda
-- `make run-api` / `make run-scraper` - Run locally (requires `.env.local`)
-- `make run-ui` - Run UI dev server (requires `ui/.env.local`)
-- `make deploy-ui` - Build UI, upload to S3 with cache headers, invalidate CloudFront
+- `make build` - Build both binaries for Linux AMD64 (`.build/api`, `.build/scraper`)
+- `make run-api` - Run API locally on `:8080` (auto-runs migrations on first boot)
+- `make run-scraper` - Run scraper as a one-shot (writes to same DB as API)
+- `make run-ui` - Run UI dev server
+- `make app-tidy` - Run `go mod tidy` in `app/`
+
+### App (`app/`)
+All Go code lives in `app/` as a single Go module with two entry points:
+- `app/cmd/api/main.go` - HTTP API server
+- `app/cmd/scraper/main.go` - OpenDota scraper (one-shot, triggered by systemd timer)
+- Shared packages: `app/types/`, `app/db/`, `app/config/`, `app/constants/`, `app/utils/`
 
 ### UI (`ui/`)
 - `pnpm dev` / `pnpm build` / `pnpm lint` / `pnpm format`
 - Tests not configured yet
-
-### API (`api/`)
-- `make test` - Run all Go tests
-- `make tidy` - Clean up Go modules
-- `make run` - Run locally
-
-### Database (`database/`)
-- `make migrate-up` / `make migrate-down` - Run migrations (requires `LOCAL_DB_URL`)
-- `make migrate-new name=xxx` - Create migration pair
-- `make migrate-force v=1` - Fix dirty state
 
 ## Code Style
 
@@ -45,9 +41,11 @@ This file provides guidance to agents when working with code in this repository.
 
 ## Project Architecture
 
-- **API/Scraper**: Separate Lambda functions deployed via AWS, config via AWS SSM Parameter Store
-- **UI**: SPA served from S3 + CloudFront, routing via TanStack Router (file-based)
-- **Scraper**: Reads from OpenDota API, writes to PostgreSQL via Bun ORM
+- **API** (`app/cmd/api`): Chi HTTP server, serves `/matches`, `/series`, `/filtersmetadata/*`, `/allowedteams`
+- **Scraper** (`app/cmd/scraper`): One-shot, triggered every 5 min by systemd timer, reads from OpenDota explorer API
+- **DB**: Single SQLite file (`/opt/dotapro/data/dotapro.db` on prod), WAL mode, FTS5 trigram search
+- **Deploy**: Binaries rsynced to DO droplet, systemd services (`dotapro-api.service`, `dotapro-scraper.service` + timer), Caddy reverse proxy
+- **UI**: SPA on Cloudflare Pages, `VITE_API_URL` env var points to API
 
 ## Go Patterns (Non-Obvious)
 - Use `*int64` only for nullable DB fields (captains), otherwise use zero values
@@ -60,17 +58,20 @@ This file provides guidance to agents when working with code in this repository.
 - Use `router.navigate({ replace: true })` for URL updates without rerender
 
 ## Database (Non-Obvious)
-- `after_match_insert` trigger auto-creates series and updates scores
-- Connection pooling via pgx
-- Batch inserts use 800 per transaction for performance
+- Migrations auto-run on API startup (via `//go:embed` + golang-migrate iofs)
+- FTS5 virtual tables (`teams_fts`, `leagues_fts`, `players_fts`) with trigram tokenizer synced via triggers
+- JSON array columns (radiant_heroes, dire_heroes, etc.) queried via SQLite `json_each`
+- `scraper_metadata` table holds `last_fetched_match_id` for resume on restart
 
 ## Scraper (Non-Obvious)
-- `MAX_BATCHES` default 50 to stay below 60 rpm OpenDota ratelimit
-- Retry logic: 3 attempts with HTTP connection pooling
+- `MAX_BATCHES` default 50, `BATCH_SIZE` default 200 to stay below OpenDota 60 rpm ratelimit
+- Retry logic: 3 attempts with exponential backoff and HTTP connection pooling
+- Scrapes professional and premium tier leagues only (configurable team filter via `allowed_teams` table)
 
 ## Gotchas
-- Go builds target `linux/arm64` (not your native OS/arch)
-- `api/` and `scraper/` are separate Go modules - run `go mod tidy` from each directory
-- Database migrations are forward-only by design (no rollback migrations in this project)
-- `make deploy-ui` separates index.html (no cache) from assets (1-year cache) and triggers CloudFront invalidation
-- RDS in public subnet for cost efficiency (no NAT GW ~$32/mo)
+- Go builds target `linux/amd64` (DO droplet), not your native OS/arch
+- Single `app/go.mod` module — run `go mod tidy` from `app/`, not from subdirectories
+- Database migrations are forward-only (no rollback migrations)
+- API and scraper share the same SQLite DB (WAL mode allows concurrent reads during scraper writes)
+- `make run-api` and `make run-scraper` export env vars from Makefile — no need for `.env` files locally
+- On prod, API reads `DATABASE_URL`, `ADDR`, `LOG_LEVEL` from `/opt/dotapro/.env` (systemd EnvironmentFile)

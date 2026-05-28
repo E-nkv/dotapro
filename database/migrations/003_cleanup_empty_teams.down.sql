@@ -1,3 +1,0 @@
--- This migration is destructive and cannot be rolled back.
--- The deleted teams, matches, series, and matches_metadata records cannot be restored.
--- To restore data, you would need to re-run the scraper to fetch the data from OpenDota.
