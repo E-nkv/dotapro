@@ -1,5 +1,6 @@
-import { useNavigate, useRouter, useSearch } from "@tanstack/react-router"
-import type { Pagination, MatchSummary, MatchFilters } from "@/types"
+import type { MatchFilters, MatchSummary, Pagination } from "@/types"
+import { useNavigate, useSearch } from "@tanstack/react-router"
+import { AlertCircle } from "lucide-react"
 import { Button, EmptyState, ErrorState, MatchCardSkeleton } from ".."
 import { MatchCard } from "./MatchCard"
 
@@ -13,7 +14,6 @@ interface MatchListProps {
 
 export function MatchList({ matches, isLoading, error, pagination, limit }: MatchListProps) {
     const navigate = useNavigate()
-    const router = useRouter()
     const search = useSearch({ strict: false }) as MatchFilters
     const skeletonCount = limit || 9
 
@@ -27,7 +27,10 @@ export function MatchList({ matches, isLoading, error, pagination, limit }: Matc
     }
 
     const handlePrevious = () => {
-        router.history.back()
+        // Strip cursor param then navigate to base list URL
+        const searchWithoutCursor = { ...search }
+        delete (searchWithoutCursor as { c?: string }).c
+        navigate({ to: "/matches", search: searchWithoutCursor, replace: true })
     }
 
     if (isLoading) {
@@ -42,7 +45,7 @@ export function MatchList({ matches, isLoading, error, pagination, limit }: Matc
         return (
             <div className="flex min-h-[50vh] items-center justify-center">
                 <EmptyState
-                    icon="🤕"
+                    icon={<AlertCircle className="h-6 w-6" />}
                     title="No matches found"
                     description="Try adjusting your filters to find what you're looking for."
                 />

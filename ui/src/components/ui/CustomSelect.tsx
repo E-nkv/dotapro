@@ -174,7 +174,7 @@ export function CustomSelect({
                 type="button"
                 onClick={() => setIsOpen(!isOpen)}
                 className={cn(
-                    "flex h-10 w-full items-center justify-between rounded-lg border px-3 py-2 text-sm whitespace-nowrap",
+                    "flex h-10 w-full cursor-pointer items-center justify-between rounded-lg border px-3 py-2 text-sm whitespace-nowrap",
                     "bg-background border-border text-foreground",
                     "focus-visible:ring-2 focus-visible:ring-red-800/50 focus-visible:outline-none",
                     "data-[state=open]:ring-2 data-[state=open]:ring-red-800/50",

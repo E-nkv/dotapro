@@ -1,15 +1,14 @@
-import { Button, Tooltip } from "../ui"
 import { cn, formatRelativeTime, getHeroImageUrl } from "@/lib"
 import type { MatchSummary } from "@/types"
-import { useNavigate } from "@tanstack/react-router"
+import { Link } from "@tanstack/react-router"
 import { Eye, Swords, Trophy } from "lucide-react"
-import React, { lazy, Suspense } from "react"
+import React from "react"
 
 const Card = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(({ className, ...props }, ref) => (
     <div
         ref={ref}
         className={cn(
-            "bg-background-card/80 text-card-foreground relative min-w-67.5 rounded-xl shadow-xl backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:scale-[1.01] hover:shadow-2xl",
+            "bg-background-card/80 text-card-foreground relative min-w-67.5 rounded-xl shadow-xl backdrop-blur-sm transition-all duration-300",
             className,
         )}
         {...props}
@@ -24,20 +23,6 @@ const CardContent = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDi
 )
 CardContent.displayName = "CardContent"
 
-// Lazy load tooltip components to reduce initial bundle size
-const HeroTooltipContent = lazy(() =>
-    import("../series/HeroTooltipContent").then(m => ({ default: m.HeroTooltipContent })),
-)
-
-// Wrapper components to handle Suspense inside tooltip content
-function HeroTooltipWrapper({ heroId }: { heroId: number }) {
-    return (
-        <Suspense fallback={<div className="h-32 w-80 animate-pulse rounded-md bg-[#1c1d21]" />}>
-            <HeroTooltipContent heroId={heroId} />
-        </Suspense>
-    )
-}
-
 export function MatchCard({
     match,
     style,
@@ -47,8 +32,6 @@ export function MatchCard({
     style?: React.CSSProperties
     className?: string
 }) {
-    const navigate = useNavigate()
-
     // Extract heroes from hero arrays
     const radiantHeroes = match.radiant_heroes.slice(0, 5)
     const direHeroes = match.dire_heroes.slice(0, 5)
@@ -80,18 +63,12 @@ export function MatchCard({
                     {/* Radiant Heroes - Aligned below team name */}
                     <div className="mt-2 flex w-full justify-start gap-1">
                         {radiantHeroes.map(heroId => (
-                            <Tooltip
+                            <img
                                 key={heroId}
-                                content={<HeroTooltipWrapper heroId={heroId} />}
-                                side="right"
-                                contentClassName="p-0 border-none bg-transparent"
-                            >
-                                <img
-                                    src={getHeroImageUrl(heroId)}
-                                    alt={`Hero ${heroId}`}
-                                    className="h-6 w-auto cursor-pointer"
-                                />
-                            </Tooltip>
+                                src={getHeroImageUrl(heroId)}
+                                alt={`Hero ${heroId}`}
+                                className="h-6 w-auto select-none"
+                            />
                         ))}
                     </div>
 
@@ -115,18 +92,12 @@ export function MatchCard({
                     {/* Dire Heroes - Aligned below team name */}
                     <div className="mt-2 flex w-full justify-start gap-1">
                         {direHeroes.map(heroId => (
-                            <Tooltip
+                            <img
                                 key={heroId}
-                                content={<HeroTooltipWrapper heroId={heroId} />}
-                                side="right"
-                                contentClassName="p-0 border-none bg-transparent"
-                            >
-                                <img
-                                    src={getHeroImageUrl(heroId)}
-                                    alt={`Hero ${heroId}`}
-                                    className="h-6 w-auto cursor-pointer"
-                                />
-                            </Tooltip>
+                                src={getHeroImageUrl(heroId)}
+                                alt={`Hero ${heroId}`}
+                                className="h-6 w-auto select-none"
+                            />
                         ))}
                     </div>
                 </div>
@@ -140,18 +111,17 @@ export function MatchCard({
                     <span>~{formatRelativeTime(match.start_time)} ago</span>
                 </div>
                 <div className="mt-auto flex items-center justify-end self-end px-1 sm:px-2">
-                    <Button
-                        variant="cool-outline"
-                        size="sm"
-                        className="group/btn px-2 text-xs"
-                        onClick={() => navigate({ to: `/matches/${match.match_id}` })}
+                    <Link
+                        to="/matches/$id"
+                        params={{ id: String(match.match_id) }}
+                        className="border-border/50 bg-inherit group/btn inline-flex cursor-pointer items-center justify-end gap-2 whitespace-nowrap rounded-md border px-2 py-1 text-xs font-medium shadow-sm transition-all duration-200 hover:border-primary-500 hover:text-white hover:bg-linear-to-r hover:from-primary-500 hover:to-primary-950"
                         aria-label={`View details for ${match.radiant_team.name} vs ${match.dire_team.name}`}
                     >
                         View match
                         <div className="flex h-4 w-5 items-center justify-center sm:w-6">
                             <Eye className="size-3 transition-all duration-300 group-hover/btn:size-5" />
                         </div>
-                    </Button>
+                    </Link>
                 </div>
             </CardContent>
         </Card>

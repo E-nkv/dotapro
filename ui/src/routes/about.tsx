@@ -1,13 +1,15 @@
 import { SEO } from "@/components"
 import { Card, CardContent } from "@/components/ui/card"
-import { createFileRoute } from "@tanstack/react-router"
+import { getPopularData } from "@/lib"
+import { createFileRoute, Link } from "@tanstack/react-router"
 import { Heart, Lightbulb, Users } from "lucide-react"
-
 export const Route = createFileRoute("/about")({
     component: About,
 })
 
 function About() {
+    const trackedTeams = getPopularData().popular_teams
+
     return (
         <>
             <SEO
@@ -31,15 +33,53 @@ function About() {
                     <CardContent className="pt-6">
                         <h2 className="text-foreground mb-4 text-xl font-semibold">What is dotapro?</h2>
                         <p className="text-muted-foreground mb-4 leading-relaxed">
-                            dotapro is an open source, free-to-use platform focused exclusively on professional{" "}
-                            <span className="text-nowrap">Dota 2</span>. While established platforms like Dotabuff,
-                            Stratz, and OpenDota offer comprehensive data across all matches, dotapro's focus is
-                            different.
+                            dotapro tracks matches from a focused set of top pro teams — the ones the community
+                            actually watches — instead of indexing every professional game on OpenDota. While established
+                            platforms like Dotabuff, Stratz, and OpenDota offer comprehensive data across all matches,
+                            dotapro's focus is different.
                         </p>
                         <p className="text-muted-foreground leading-relaxed">
                             We distill the noise of public match data and deliver the analytics that actually matter to
                             Dota players—from casual fans following their favorite teams to pro players scouting
                             opponents before big matches.
+                        </p>
+                    </CardContent>
+                </Card>
+
+                <Card id="tracked-teams" className="border-border/50">
+                    <CardContent className="pt-6">
+                        <h2 className="text-foreground mb-4 text-xl font-semibold">Tracked teams</h2>
+                        <ul className="grid gap-3 sm:grid-cols-2">
+                            {trackedTeams.map(team => (
+                                <li key={team.id} className="flex items-center gap-3">
+                                    {team.logo_url && (
+                                        <img
+                                            src={team.logo_url}
+                                            alt=""
+                                            className="h-8 w-8 shrink-0 object-contain"
+                                        />
+                                    )}
+                                    <Link
+                                        to="/series"
+                                        search={{ team: team.id }}
+                                        className="text-foreground hover:text-primary font-medium transition-colors"
+                                    >
+                                        {team.name}
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
+                        <p className="text-muted-foreground mt-4 text-sm">
+                            This list may grow over time.{" "}
+                            <a
+                                href="https://github.com/nk1e/dotapro/issues"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-blue-500 hover:underline"
+                            >
+                                Suggest a team on GitHub
+                            </a>
+                            .
                         </p>
                     </CardContent>
                 </Card>
@@ -53,8 +93,9 @@ function About() {
                         <h2 className="text-foreground mb-6 text-xl font-semibold">Who is dotapro for?</h2>
                         <ul className="text-muted-foreground space-y-3">
                             <li>
-                                <strong className="text-foreground font-medium">Casual fans</strong> – Stay updated on
-                                your favorite teams without drowning in statistics.
+                                <strong className="text-foreground font-medium">Casual fans</strong> – Follow your
+                                favorite teams and jump straight into their recent series without drowning in
+                                statistics.
                             </li>
                             <li>
                                 <strong className="text-foreground font-medium">Casters and analysts</strong> – Quick
@@ -78,20 +119,33 @@ function About() {
                         <div className="bg-primary/10 mb-4 flex h-12 w-12 items-center justify-center rounded-lg">
                             <Heart className="text-primary h-6 w-6" />
                         </div>
-                        <h2 className="text-foreground mb-4 text-xl font-semibold">Powered by OpenDota</h2>
-                        <p className="text-muted-foreground leading-relaxed">
-                            dotapro wouldn't exist without the incredible work of the{" "}
-                            <a
-                                href="https://www.opendota.com"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-blue-500 hover:underline"
-                            >
-                                OpenDota
-                            </a>{" "}
-                            team. Their API makes professional <span className="text-nowrap">Dota 2</span> data
-                            accessible to everyone, and we're committed to building on that foundation.
-                        </p>
+                        <h2 className="text-foreground mb-4 text-xl font-semibold">Credits</h2>
+                        <ul className="text-muted-foreground space-y-4">
+                            <li>
+                                <strong className="text-foreground font-medium">OpenDota</strong> — Their API makes
+                                professional <span className="text-nowrap">Dota 2</span> data accessible to everyone.
+                                <a
+                                    href="https://www.opendota.com"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="ml-1 text-blue-500 hover:underline"
+                                >
+                                    opendota.com
+                                </a>
+                            </li>
+                            <li>
+                                <strong className="text-foreground font-medium">Dota 2 Aegis 3D model</strong> by{" "}
+                                <a
+                                    href="https://sketchfab.com/dima48"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-blue-500 hover:underline"
+                                >
+                                    dima48
+                                </a>{" "}
+                                on Sketchfab (CC BY)
+                            </li>
+                        </ul>
                     </CardContent>
                 </Card>
 

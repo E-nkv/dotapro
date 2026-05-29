@@ -1,9 +1,9 @@
-import { Button, ErrorState, PlayersTable, SEO, Skeleton } from "@/components"
+import { BackLink, Button, ErrorState, PlayersTable, SEO, Skeleton } from "@/components"
 import { useMatch } from "@/hooks/useMatches"
 import { copyToClipboard, formatDuration, formatRelativeTime } from "@/lib"
 import type { MatchDetail, SeriesMatchDetail } from "@/types"
-import { createFileRoute, useRouter } from "@tanstack/react-router"
-import { Check, ChevronLeft, Clock, Copy, ExternalLink, Swords } from "lucide-react"
+import { createFileRoute } from "@tanstack/react-router"
+import { Check, Clock, Copy, ExternalLink, Swords } from "lucide-react"
 import * as React from "react"
 
 export const Route = createFileRoute("/matches/$id")({
@@ -14,7 +14,6 @@ function MatchDetails() {
     const { id } = Route.useParams()
     const matchId = parseInt(id)
     const { data: match, isLoading, error } = useMatch(matchId)
-    const router = useRouter()
 
     if (isLoading) {
         return <MatchDetailsSkeleton />
@@ -35,7 +34,7 @@ function MatchDetails() {
                 description={`Match details for ${match.radiant_team.name} vs ${match.dire_team.name} in ${match.league.name}`}
             />
             <div className="mx-auto max-w-7xl px-2 py-6">
-                <MatchHeader match={match} router={router} />
+                <MatchHeader match={match} />
                 <PlayersTable
                     match={
                         {
@@ -60,7 +59,7 @@ function MatchDetails() {
     )
 }
 
-function MatchHeader({ match, router }: { match: MatchDetail; router: ReturnType<typeof useRouter> }) {
+function MatchHeader({ match }: { match: MatchDetail }) {
     const { radiant_team, dire_team, league, start_time, duration, match_id } = match
     const [copied, setCopied] = React.useState(false)
 
@@ -74,15 +73,7 @@ function MatchHeader({ match, router }: { match: MatchDetail; router: ReturnType
 
     return (
         <div className="rounded-xl pb-2" role="region" aria-label="Match header">
-            {/* Back Button */}
-            <button
-                className="text-foreground-muted hover:text-foreground mb-4 flex w-fit items-center gap-2"
-                onClick={() => router.history.back()}
-                aria-label="Back to matches list"
-            >
-                <ChevronLeft className="h-4 w-4" />
-                Back to Matches
-            </button>
+            <BackLink to="/matches" />
 
             {/* Mobile Layout */}
             <div className="flex flex-col gap-4 px-2 md:hidden">

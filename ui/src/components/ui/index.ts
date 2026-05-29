@@ -1,3 +1,4 @@
+export { BackLink } from "./BackLink"
 export { Badge } from "./badge"
 export { Button } from "./button"
 export { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "./card"
@@ -6,5 +7,6 @@ export { Input } from "./input"
 export { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./RadixSelect"
 export { Skeleton } from "./skeleton"
 export { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "./table"
-export { Tabs, TabsList, TabsTrigger, TabsContent } from "./tabs"
+export { Tabs, TabsContent, TabsList, TabsTrigger } from "./tabs"
 export { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./tooltip"
+

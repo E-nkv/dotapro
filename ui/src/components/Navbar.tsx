@@ -167,7 +167,7 @@ export function Navbar() {
                 >
                     {/* Backdrop */}
                     <div
-                        className="bg-background/80 absolute inset-0 backdrop-blur-sm"
+                        className="bg-background/80 absolute inset-0 cursor-pointer backdrop-blur-sm"
                         onClick={() => setIsMobileMenuOpen(false)}
                         aria-hidden="true"
                     />

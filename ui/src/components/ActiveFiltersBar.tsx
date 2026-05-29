@@ -51,7 +51,7 @@ export function ActiveFiltersBar({ filters, onRemove, labels = {} }: ActiveFilte
                     <span className="font-normal">{getLabel(key, value as string | number)}</span>
                     <button
                         onClick={() => onRemove(key as "league" | "team" | "hero" | "player")}
-                        className="hover:bg-primary-500/20 ml-1 rounded-full p-0.5 transition-colors"
+                        className="hover:bg-primary-500/20 ml-1 cursor-pointer rounded-full p-0.5 transition-colors"
                         aria-label={`Remove ${key} filter`}
                     >
                         <X className="h-3 w-3" />

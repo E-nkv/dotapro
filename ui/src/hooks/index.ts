@@ -1,3 +1,5 @@
 export { useDebounce } from "./useDebounce"
-export { useMatches, useMatch } from "./useMatches"
-export { saveFilters, loadFilters, clearFilters, useFilterPersistence } from "./useFilterPersistence"
+export { useMatch, useMatches } from "./useMatches"
+export { useMobileFilters } from "./useMobileFilters"
+export { DEBOUNCE_MS, useSearchSelector } from "./useSearchSelector"
+

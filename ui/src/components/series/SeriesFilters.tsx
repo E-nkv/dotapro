@@ -1,4 +1,8 @@
 import type { Filters } from "@/api"
+import { PAGINATION_LIMITS } from "@/constants"
+import { useNavigate } from "@tanstack/react-router"
+import { Funnel } from "lucide-react"
+import { useEffect, useState } from "react"
 import {
     ActiveFiltersBar,
     Button,
@@ -9,10 +13,6 @@ import {
     PlayerSelector,
     TeamSelector,
 } from ".."
-import { PAGINATION_LIMITS } from "@/constants"
-import { useNavigate } from "@tanstack/react-router"
-import { Funnel } from "lucide-react"
-import { useEffect, useState } from "react"
 
 interface SeriesFiltersProps {
     filters: Filters
@@ -96,7 +96,7 @@ export function SeriesFilters({ filters, isMobileOpen, onMobileClose, itemType =
             {/* Backdrop overlay for mobile/tablet */}
             {isMobileOpen && (
                 <div
-                    className="fixed inset-0 z-40 bg-black/60 lg:hidden"
+                    className="fixed inset-0 z-40 cursor-pointer bg-black/60 lg:hidden"
                     onClick={onMobileClose}
                     aria-hidden="true"
                     role="presentation"

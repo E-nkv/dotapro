@@ -3,9 +3,11 @@
 // ============================================================================
 
 export { ActiveFiltersBar } from "./ActiveFiltersBar"
+export { AegisViewer } from "./AegisViewer"
 export { EmptyState } from "./EmptyState"
 export { ErrorBoundary, withErrorBoundary } from "./ErrorBoundary"
 export { ErrorState } from "./ErrorState"
+export { FeaturedTeamsStrip } from "./FeaturedTeamsStrip"
 export { Footer } from "./Footer"
 export { HeroSelector } from "./HeroSelector"
 export { LeagueSelector } from "./LeagueSelector"
@@ -22,6 +24,7 @@ export { TeamSelector } from "./TeamSelector"
 // ============================================================================
 
 export {
+    BackLink,
     Badge,
     Button,
     Card,
@@ -50,7 +53,7 @@ export {
     TooltipContent,
     TooltipProvider,
     TooltipTrigger,
-    Skeleton as UISkeleton,
+    Skeleton as UISkeleton
 } from "./ui"
 
 export { CustomSelect, CustomSelectItem } from "./ui/CustomSelect"
@@ -71,3 +74,4 @@ export { ItemTooltipContent } from "./series/ItemTooltipContent"
 export { MatchCard } from "./matches/MatchCard"
 export { MatchFilters } from "./matches/MatchFilters"
 export { MatchList } from "./matches/MatchList"
+

@@ -48,8 +48,15 @@ export function formatRelativeTime(dateString: string): string {
 }
 
 export function formatDuration(seconds: number): string {
-    const minutes = Math.floor(seconds / 60)
-    return `${minutes} minutes`
+    const hours = Math.floor(seconds / 3600)
+    const minutes = Math.floor((seconds % 3600) / 60)
+
+    if (hours > 0 && minutes > 0) {
+        return `${hours}h ${minutes}m`
+    } else if (hours > 0) {
+        return `${hours} hour${hours !== 1 ? "s" : ""}`
+    }
+    return `${minutes} minute${minutes !== 1 ? "s" : ""}`
 }
 
 export async function copyToClipboard(text: string): Promise<boolean> {

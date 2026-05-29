@@ -1,7 +1,7 @@
+import heroesData from "@/assets/static_data/heroes.json"
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react"
 import { useDebounce } from "../hooks"
 import { cn, getPopularData } from "../lib"
-import heroesData from "@/assets/static_data/heroes.json"
 
 // ============================================================================
 // Types
@@ -490,7 +490,7 @@ export function HeroSelector({
                 <button
                     type="button"
                     onClick={handleClear}
-                    className="text-foreground-muted hover:text-foreground transition-colors"
+                    className="text-foreground-muted hover:text-foreground cursor-pointer transition-colors"
                     aria-label="Clear search"
                 >
                     <ClearIcon />
@@ -503,7 +503,7 @@ export function HeroSelector({
                         setIsOpen(!isOpen)
                         inputRef.current?.focus()
                     }}
-                    className="text-foreground-muted hover:text-foreground transition-colors"
+                    className="text-foreground-muted hover:text-foreground cursor-pointer transition-colors"
                     aria-label={isOpen ? "Close dropdown" : "Open dropdown"}
                     aria-expanded={isOpen}
                 >

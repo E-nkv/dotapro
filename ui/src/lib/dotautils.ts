@@ -35,11 +35,6 @@ export interface Item {
     tier?: number | null
 }
 
-export interface PopularLeague {
-    id: number
-    name: string
-}
-
 export interface PopularTeam {
     id: number
     name: string
@@ -57,7 +52,6 @@ export interface PopularHero {
 }
 
 export interface PopularData {
-    popular_leagues: PopularLeague[]
     popular_teams: PopularTeam[]
     popular_players: PopularPlayer[]
     popular_heroes: PopularHero[]
@@ -76,7 +70,7 @@ import popular from "../assets/static_data/popular.json"
 const HEROES_DATA = heroes as Record<string, Hero>
 const ITEMS_DATA = items as Record<string, Item>
 const NEUTRALS_DATA = neutrals as Record<string, Item>
-const POPULAR_DATA = popular as PopularData
+const POPULAR_DATA = popular as unknown as Omit<PopularData, "popular_leagues"> & { popular_leagues?: never }
 
 // Create a reverse lookup map for components (name -> Item)
 const ITEMS_BY_NAME: Record<string, Item> = {}
@@ -116,27 +110,4 @@ export function getNeutralById(itemId: number): Item | undefined {
 
 export function getItemByName(name: string): Item | undefined {
     return ITEMS_BY_NAME[name]
-}
-
-export function getHeroImageUrl(heroId: number): string {
-    return `https://cdn.dota2.com/apps/dota2/images/heroes/${getHeroById(heroId)?.name?.replace("npc_dota_hero_", "")}_lg.png`
-}
-
-export function formatRelativeTime(dateString: string): string {
-    const date = new Date(dateString)
-    const now = new Date()
-    const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000)
-
-    if (diffInSeconds < 60) {
-        return `${diffInSeconds} seconds`
-    } else if (diffInSeconds < 3600) {
-        const minutes = Math.floor(diffInSeconds / 60)
-        return `${minutes} minute${minutes > 1 ? "s" : ""}`
-    } else if (diffInSeconds < 86400) {
-        const hours = Math.floor(diffInSeconds / 3600)
-        return `${hours} hour${hours > 1 ? "s" : ""}`
-    } else {
-        const days = Math.floor(diffInSeconds / 86400)
-        return `${days} day${days > 1 ? "s" : ""}`
-    }
 }

@@ -1,7 +1,6 @@
 import type { Series } from "@/api"
-import { Button } from "../ui"
 import { cn, formatRelativeTime } from "@/lib"
-import { useNavigate } from "@tanstack/react-router"
+import { Link } from "@tanstack/react-router"
 import { Eye, Swords } from "lucide-react"
 import * as React from "react"
 
@@ -9,7 +8,7 @@ const Card = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElemen
     <div
         ref={ref}
         className={cn(
-            "bg-background-card/80 text-card-foreground relative overflow-hidden rounded-xl shadow-xl backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:scale-[1.01] hover:shadow-2xl",
+            "bg-background-card/80 text-card-foreground relative overflow-hidden rounded-xl shadow-xl backdrop-blur-sm transition-all duration-300",
             className,
         )}
         {...props}
@@ -33,8 +32,6 @@ export function SeriesCard({
     style?: React.CSSProperties
     className?: string
 }) {
-    const navigate = useNavigate()
-
     return (
         <Card
             role="article"
@@ -100,18 +97,17 @@ export function SeriesCard({
                     <span>~{formatRelativeTime(series.start_time)} ago</span>
                 </div>
                 <div className="mt-auto flex items-center justify-end px-1 sm:px-2">
-                    <Button
-                        variant="cool-outline"
-                        size="sm"
-                        className="group/btn px-2 text-xs"
-                        onClick={() => navigate({ to: `/series/${series.series_id}` })}
+                    <Link
+                        to="/series/$id"
+                        params={{ id: String(series.series_id) }}
+                        className="border-border/50 bg-inherit group/btn inline-flex cursor-pointer items-center justify-end gap-2 whitespace-nowrap rounded-md border px-2 py-1 text-xs font-medium shadow-sm transition-all duration-200 hover:border-primary-500 hover:text-white hover:bg-linear-to-r hover:from-primary-500 hover:to-primary-950"
                         aria-label={`View details for ${series.team_a.name} vs ${series.team_b.name}`}
                     >
                         View series
                         <div className="flex h-4 w-5 items-center justify-center sm:w-6">
                             <Eye className="size-3 transition-all duration-300 group-hover/btn:size-5" />
                         </div>
-                    </Button>
+                    </Link>
                 </div>
             </CardContent>
         </Card>

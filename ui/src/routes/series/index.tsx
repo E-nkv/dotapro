@@ -1,10 +1,11 @@
 import { getSeries, type Filters, type GetSeriesResponse } from "@/api"
-import { Button, SEO, SeriesFilters, SeriesList } from "@/components"
+import { Button, SEO, SeriesList } from "@/components"
+import { SeriesFilters } from "@/components/series/SeriesFilters"
 import { PAGINATION_LIMITS } from "@/constants"
+import { useMobileFilters } from "@/hooks"
 import { useQuery } from "@tanstack/react-query"
 import { createFileRoute, useSearch } from "@tanstack/react-router"
 import { Funnel } from "lucide-react"
-import { useEffect, useRef, useState } from "react"
 
 export const Route = createFileRoute("/series/")({
     component: Series,
@@ -25,40 +26,7 @@ export const Route = createFileRoute("/series/")({
 
 function Series() {
     const search = useSearch({ strict: false })
-    const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false)
-    const scrollPositionRef = useRef(0)
-
-    // Lock body scroll when filter modal is open
-    useEffect(() => {
-        if (isMobileFiltersOpen) {
-            // Save current scroll position
-            scrollPositionRef.current = window.scrollY
-            // Lock scroll
-            document.body.style.overflow = "hidden"
-        } else {
-            // Unlock scroll
-            document.body.style.overflow = ""
-            // Restore scroll position
-            window.scrollTo(0, scrollPositionRef.current)
-        }
-        return () => {
-            document.body.style.overflow = ""
-        }
-    }, [isMobileFiltersOpen])
-
-    // Close filter modal when navbar hamburger is clicked
-    useEffect(() => {
-        const handleNavbarMenuOpen = () => {
-            if (isMobileFiltersOpen) {
-                setIsMobileFiltersOpen(false)
-            }
-        }
-
-        window.addEventListener("navbar-menu-open", handleNavbarMenuOpen)
-        return () => {
-            window.removeEventListener("navbar-menu-open", handleNavbarMenuOpen)
-        }
-    }, [isMobileFiltersOpen])
+    const { isMobileFiltersOpen, setIsMobileFiltersOpen } = useMobileFilters()
 
     const { data, isLoading, error } = useQuery({
         queryKey: ["series", search],

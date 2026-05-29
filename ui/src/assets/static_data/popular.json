@@ -6,21 +6,6 @@
             "logo_url": "https://steamcdn-a.akamaihd.net/apps/dota2/images/team_logos/2163.png"
         },
         {
-            "id": 9247354,
-            "name": "Team Falcons",
-            "logo_url": "https://cdn.steamusercontent.com/ugc/2314350571781870059/2B5C9FE9BA0A2DC303A13261444532AA08352843/"
-        },
-        {
-            "id": 7119388,
-            "name": "Team Spirit",
-            "logo_url": "https://cdn.steamusercontent.com/ugc/1839179120711951766/CD7E0885CB527334205CC7885E9C101B7BC17702/"
-        },
-        {
-            "id": 8291895,
-            "name": "Tundra",
-            "logo_url": "https://cdn.steamusercontent.com/ugc/2031716132171967904/07B168B8063D9B22CDAD53AB421ECAF3D4B2E07E/"
-        },
-        {
             "id": 7554697,
             "name": "Nigma Galaxy",
             "logo_url": "https://cdn.steamusercontent.com/ugc/1827894588975105240/421C0D8318D71D5DD31FD08A7933AB622AE26590/"
@@ -31,27 +16,39 @@
             "logo_url": "https://cdn.steamusercontent.com/ugc/9995426432403529725/51E13136D4CCC8C7D8062861541A1D13B8ED87E0/"
         },
         {
+            "id": 9572001,
+            "name": "PARIVISION",
+            "logo_url": "https://cdn.steamusercontent.com/ugc/10501094611027794535/1569CC553CB72963C8EC4C3F807EE50DA925BDC2/"
+        },
+        {
+            "id": 7119388,
+            "name": "Team Spirit",
+            "logo_url": "https://cdn.steamusercontent.com/ugc/1839179120711951766/CD7E0885CB527334205CC7885E9C101B7BC17702/"
+        },
+        {
+            "id": 9247354,
+            "name": "Team Falcons",
+            "logo_url": "https://cdn.steamusercontent.com/ugc/2314350571781870059/2B5C9FE9BA0A2DC303A13261444532AA08352843/"
+        },
+        {
+            "id": 8291895,
+            "name": "Tundra Esports",
+            "logo_url": "https://cdn.steamusercontent.com/ugc/2031716132171967904/07B168B8063D9B22CDAD53AB421ECAF3D4B2E07E/"
+        },
+        {
             "id": 9467224,
             "name": "Aurora Gaming",
             "logo_url": "https://cdn.steamusercontent.com/ugc/13052583756685508/22B0338D7E09FB2F021E5DB5BBEFFD170D5E5E1A/"
-        }
-    ],
-    "popular_leagues": [
-        { "id": 19255, "name": "Premier Series" },
-        {
-            "id": 18866,
-            "name": "European Pro League 2025-2026 Season"
-        },
-        { "id": 19422, "name": "ESL One Birmingham 2026" },
-        { "id": 19090, "name": "ESL One Birmingham 2026 Qualifiers" },
-        { "id": 19435, "name": "PGL Wallachia 2026 Season 7" },
-        {
-            "id": 19269,
-            "name": "DreamLeague Season 28"
         },
         {
-            "id": 18324,
-            "name": "The International 2025"
+            "id": 9823272,
+            "name": "Team Yandex",
+            "logo_url": "https://cdn.steamusercontent.com/ugc/12970505637628494427/B04C3358F4E815ADFC2F8B1B8BE3AB0CE75C8881/"
+        },
+        {
+            "id": 15,
+            "name": "LGD Gaming",
+            "logo_url": "https://steamcdn-a.akamaihd.net/apps/dota2/images/team_logos/15.png"
         }
     ],
     "popular_players": [

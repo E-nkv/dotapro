@@ -1,20 +1,20 @@
 import type {
     Filters,
-    Params,
-    TeamInfo,
+    GetMatchesResponse,
+    GetSeriesResponse,
     LeagueInfo,
     LeagueSearchResult,
-    Series,
-    PlayerData,
-    SeriesMatchDetail,
-    SeriesDetail,
-    Pagination,
-    GetSeriesResponse,
-    TeamSearchResult,
-    MatchSummary,
     MatchDetail,
-    GetMatchesResponse,
     MatchFilters,
+    MatchSummary,
+    Pagination,
+    Params,
+    PlayerData,
+    Series,
+    SeriesDetail,
+    SeriesMatchDetail,
+    TeamInfo,
+    TeamSearchResult,
 } from "@/types"
 
 // Player search result type
@@ -25,22 +25,8 @@ export type PlayerSearchResult = {
 
 // Re-export types for backward compatibility
 export type {
-    Filters,
-    Params,
-    TeamInfo,
-    LeagueInfo,
-    LeagueSearchResult,
-    Series,
-    PlayerData,
-    SeriesMatchDetail,
-    SeriesDetail,
-    Pagination,
-    GetSeriesResponse,
-    TeamSearchResult,
-    MatchSummary,
-    MatchDetail,
-    GetMatchesResponse,
-    MatchFilters,
+    Filters, GetMatchesResponse, GetSeriesResponse, LeagueInfo,
+    LeagueSearchResult, MatchDetail, MatchFilters, MatchSummary, Pagination, Params, PlayerData, Series, SeriesDetail, SeriesMatchDetail, TeamInfo, TeamSearchResult
 }
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8080"
@@ -76,6 +62,11 @@ export async function getSeriesById(id: number, signal: AbortSignal): Promise<Se
 export async function searchLeagues(query: string, signal: AbortSignal): Promise<LeagueSearchResult[]> {
     const url = buildUrl("/filtersmetadata/leagues", { q: query })
     return fetchApi(url, signal, "Failed to search leagues")
+}
+
+export async function getRecentLeagues(signal: AbortSignal): Promise<LeagueSearchResult[]> {
+    const url = new URL(`${API_BASE_URL}/filtersmetadata/leagues/recent`)
+    return fetchApi(url, signal, "Failed to fetch recent leagues")
 }
 
 export async function searchTeams(query: string, signal: AbortSignal): Promise<TeamSearchResult[]> {

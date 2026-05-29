@@ -1,8 +1,8 @@
 import { useQuery } from "@tanstack/react-query"
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react"
-import { getLeagueName, searchLeagues } from "../api"
+import { getLeagueName, getRecentLeagues, searchLeagues } from "../api"
 import { useDebounce } from "../hooks"
-import { cn, getPopularData } from "../lib"
+import { cn } from "../lib"
 import { Spinner } from "./Spinner"
 
 // ============================================================================
@@ -95,8 +95,19 @@ export function LeagueSelector({
     const debouncedQuery = useDebounce(inputValue, DEBOUNCE_MS)
 
     const {
+        data: recentLeagues = [],
+        isLoading: isRecentLoading,
+        isError: isRecentError,
+    } = useQuery({
+        queryKey: ["leagues", "recent"],
+        queryFn: async ({ signal }) => getRecentLeagues(signal),
+        staleTime: 5 * 60 * 60 * 1000, // 5 hours, matching backend cache TTL
+    })
+
+    const {
         data: searchResults = [],
-        isLoading,
+        isLoading: isSearchLoading,
+        isError: isSearchError,
         isFetching,
     } = useQuery({
         queryKey: ["leagues", "search", debouncedQuery],
@@ -136,17 +147,30 @@ export function LeagueSelector({
     // ---------------------------------------------------------------------------
 
     const items = useMemo(() => {
-        if (debouncedQuery.trim().length === 0) {
-            return getPopularData().popular_leagues
+        if (debouncedQuery.trim().length > 0) {
+            return (searchResults || []).map(l => ({ id: l.league_id, name: l.name }))
         }
-        return (searchResults || []).map(l => ({ id: l.league_id, name: l.name }))
-    }, [debouncedQuery, searchResults])
+        return recentLeagues.map(l => ({ id: l.league_id, name: l.name }))
+    }, [debouncedQuery, searchResults, recentLeagues])
 
     const listboxId = `${id}-listbox`
     const hasQuery = debouncedQuery.trim().length > 0
     const showSpinner = isFetching && hasQuery
     const showClearButton = inputValue && !showSpinner
-    const showEmptyState = items.length === 0 && !isLoading && !isFetching
+
+    type DropdownStatus = "loading" | "error" | "empty" | "results"
+    const dropdownStatus: DropdownStatus = useMemo(() => {
+        if (!hasQuery) {
+            if (isRecentLoading) return "loading"
+            if (isRecentError) return "error"
+            if (recentLeagues.length === 0) return "empty"
+            return "results"
+        }
+        if (isSearchLoading) return "loading"
+        if (isSearchError) return "error"
+        if (searchResults.length === 0) return "empty"
+        return "results"
+    }, [hasQuery, isRecentLoading, isRecentError, recentLeagues, isSearchLoading, isSearchError, searchResults])
 
     // ---------------------------------------------------------------------------
     // Helper functions
@@ -470,7 +494,7 @@ export function LeagueSelector({
                 <button
                     type="button"
                     onClick={handleClear}
-                    className="text-foreground-muted hover:text-foreground transition-colors"
+                    className="text-foreground-muted hover:text-foreground cursor-pointer transition-colors"
                     aria-label="Clear search"
                 >
                     <ClearIcon />
@@ -483,7 +507,7 @@ export function LeagueSelector({
                         setIsOpen(!isOpen)
                         inputRef.current?.focus()
                     }}
-                    className="text-foreground-muted hover:text-foreground transition-colors"
+                    className="text-foreground-muted hover:text-foreground cursor-pointer transition-colors"
                     aria-label={isOpen ? "Close dropdown" : "Open dropdown"}
                     aria-expanded={isOpen}
                 >
@@ -491,12 +515,6 @@ export function LeagueSelector({
                 </button>
             )}
         </div>
-    )
-
-    const renderEmptyState = () => (
-        <li role="option" aria-selected="false" className="text-foreground-muted px-4 py-3 text-sm">
-            No leagues found
-        </li>
     )
 
     const renderLeagueItem = (league: League, index: number) => (
@@ -516,17 +534,37 @@ export function LeagueSelector({
         </li>
     )
 
-    const renderDropdown = () => (
-        <ul
-            ref={listRef}
-            id={listboxId}
-            role="listbox"
-            aria-label={ariaLabel || "Leagues"}
-            className="border-border-accent bg-background-card absolute top-full z-50 mt-1 max-h-72 w-full min-w-65 overflow-auto rounded-lg border shadow-xl"
-        >
-            {showEmptyState ? renderEmptyState() : items.map(renderLeagueItem)}
-        </ul>
-    )
+    const renderDropdown = () => {
+        const content =
+            dropdownStatus === "loading" ? (
+                <li role="option" aria-selected="false" className="text-foreground-muted flex cursor-pointer items-center gap-2 px-4 py-3 text-sm">
+                    <Spinner size="sm" aria-label="Loading leagues" />
+                    Loading leagues...
+                </li>
+            ) : dropdownStatus === "error" ? (
+                <li role="option" aria-selected="false" className="text-foreground-muted px-4 py-3 text-sm">
+                    Couldn&apos;t load leagues
+                </li>
+            ) : dropdownStatus === "empty" ? (
+                <li role="option" aria-selected="false" className="text-foreground-muted px-4 py-3 text-sm">
+                    No leagues found
+                </li>
+            ) : (
+                items.map(renderLeagueItem)
+            )
+
+        return (
+            <ul
+                ref={listRef}
+                id={listboxId}
+                role="listbox"
+                aria-label={ariaLabel || "Leagues"}
+                className="border-border-accent bg-background-card absolute top-full z-50 mt-1 max-h-72 w-full min-w-65 overflow-auto rounded-lg border shadow-xl"
+            >
+                {content}
+            </ul>
+        )
+    }
 
     // ---------------------------------------------------------------------------
     // Render

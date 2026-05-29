@@ -5,7 +5,7 @@
     src: url("/fonts/shantell-sans-regular.woff2") format("woff2");
     font-weight: 400;
     font-style: normal;
-    font-display: swap;
+    font-display: optional;
 }
 
 @font-face {
@@ -13,7 +13,7 @@
     src: url("/fonts/shantell-sans-700.woff2") format("woff2");
     font-weight: 700;
     font-style: normal;
-    font-display: swap;
+    font-display: optional;
 }
 
 @font-face {
@@ -436,42 +436,6 @@ body {
     pointer-events: none;
 }
 
-/* Scanline effect for Dota/esports aesthetic */
-@keyframes scanline {
-    0% {
-        transform: translateY(-100%);
-        opacity: 0;
-    }
-    5% {
-        opacity: 0.15;
-    }
-    95% {
-        opacity: 0.15;
-    }
-    100% {
-        transform: translateY(100vh);
-        opacity: 0;
-    }
-}
-
-.scanline-effect {
-    position: relative;
-    overflow: hidden;
-}
-
-.scanline-effect::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 100px;
-    background: linear-gradient(to bottom, transparent, hsl(0, 84%, 50% / 0.1), transparent);
-    animation: scanline 8s linear infinite;
-    pointer-events: none;
-    z-index: 5;
-}
-
 /* Radiant/Dire glow effects */
 @keyframes radiantGlow {
     0%,
@@ -519,23 +483,9 @@ body {
     animation: iconFloat 4s ease-in-out infinite;
 }
 
-/* Hero image subtle float - uses float keyframe from Plan 2 */
-.hero-float {
-    animation: float 6s ease-in-out infinite;
-}
-
 /* Respect prefers-reduced-motion for visual effects */
 @media (prefers-reduced-motion: reduce) {
-    .hero-float {
-        animation: none;
-    }
-
     .bg-gradient-mesh::before {
-        animation: none;
-        opacity: 0;
-    }
-
-    .scanline-effect::after {
         animation: none;
         opacity: 0;
     }

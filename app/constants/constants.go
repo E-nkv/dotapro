@@ -9,4 +9,6 @@ const (
 	MaxLimit              = 100
 	SearchLimit           = 10
 	CORSMaxAge            = 300
+	RecentLeaguesLimit    = 5
+	RecentLeaguesCacheTTL = 5 * time.Hour
 )

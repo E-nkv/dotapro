@@ -470,7 +470,7 @@ export function TeamSelector({
                 <button
                     type="button"
                     onClick={handleClear}
-                    className="text-foreground-muted hover:text-foreground transition-colors"
+                    className="text-foreground-muted hover:text-foreground cursor-pointer transition-colors"
                     aria-label="Clear search"
                 >
                     <ClearIcon />
@@ -483,7 +483,7 @@ export function TeamSelector({
                         setIsOpen(!isOpen)
                         inputRef.current?.focus()
                     }}
-                    className="text-foreground-muted hover:text-foreground transition-colors"
+                    className="text-foreground-muted hover:text-foreground cursor-pointer transition-colors"
                     aria-label={isOpen ? "Close dropdown" : "Open dropdown"}
                     aria-expanded={isOpen}
                 >

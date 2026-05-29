@@ -3,9 +3,8 @@
     "printWidth": 120,
     "semi": false,
     "singleQuote": false,
-    "trailingComma": "all",
+    "trailingComma": "none",
     "arrowParens": "avoid",
     "proseWrap": "never",
-    "endOfLine": "lf",
-    "plugins": ["prettier-plugin-tailwindcss"]
+    "endOfLine": "lf"
 }

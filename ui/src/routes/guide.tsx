@@ -1,4 +1,4 @@
-import { SEO } from "@/components"
+import { FeaturedTeamsStrip, SEO } from "@/components"
 import { Card, CardContent } from "@/components/ui/card"
 import { createFileRoute, Link } from "@tanstack/react-router"
 import { BarChart3, Calendar, Gamepad2, Monitor } from "lucide-react"
@@ -21,8 +21,8 @@ function Guide() {
                         Welcome to dotapro
                     </h1>
                     <p className="text-muted-foreground mx-auto max-w-2xl text-base sm:text-lg md:text-lg lg:text-xl">
-                        Your focused gateway to professional Dota 2 analytics. No noise, no public match clutter—just
-                        the insights that matter from the pro scene.
+                        Your focused gateway to professional Dota 2 analytics — built around the teams the community
+                        watches most, not every pro match on the books.
                     </p>
                 </div>
 
@@ -40,10 +40,14 @@ function Guide() {
                                     PGL Wallachia 2026 Season 7
                                 </Link>{" "}
                                 or want to see what{" "}
-                                <Link to="/series" search={{ team: 8291895 }} className="text-blue-500 hover:underline">
-                                    Tundra
+                                <Link to="/series" search={{ team: 2163 }} className="text-blue-500 hover:underline">
+                                    Team Liquid
                                 </Link>{" "}
-                                has been playing? It's all here.
+                                and{" "}
+                                <Link to="/series" search={{ team: 7554697 }} className="text-blue-500 hover:underline">
+                                    Nigma Galaxy
+                                </Link>{" "}
+                                have been playing? It's all here.
                             </p>
                         </CardContent>
                     </Card>
@@ -69,6 +73,16 @@ function Guide() {
                     </Card>
                 </div>
 
+                <Card className="border-border/50">
+                    <CardContent className="pt-6">
+                        <h3 className="text-foreground mb-2 text-xl font-semibold">Start with your team</h3>
+                        <p className="text-muted-foreground mb-6 leading-relaxed">
+                            Pick a team to jump straight into their recent series.
+                        </p>
+                        <FeaturedTeamsStrip limit={10} showAndMore={false} logoClassName="h-8 w-8" />
+                    </CardContent>
+                </Card>
+
                 {/* Getting Started Section */}
                 <Card className="border-border/50">
                     <CardContent className="pt-6">
@@ -77,10 +91,10 @@ function Guide() {
                         </div>
                         <h3 className="text-foreground mb-2 text-xl font-semibold">Analytics That Matter</h3>
                         <p className="text-muted-foreground leading-relaxed">
-                            Unlike traditional platforms that drown you in public match data, dotapro focuses
-                            exclusively on professional Dota 2. Every stat, every filter is designed to help you
-                            understand the pro scene—whether you're a casual fan, a caster preparing for a broadcast, or
-                            a pro player scouting opponents.
+                            Unlike traditional platforms that drown you in public match data, dotapro focuses on a
+                            curated set of top pro teams. Every stat, every filter is designed to help you understand
+                            the pro scene—whether you're a casual fan, a caster preparing for a broadcast, or a pro
+                            player scouting opponents.
                         </p>
                     </CardContent>
                 </Card>
@@ -92,8 +106,7 @@ function Guide() {
                         <h3 className="text-foreground text-lg font-semibold">Pro Tip</h3>
                     </div>
                     <p className="text-muted-foreground leading-relaxed">
-                        While dotapro is responsive across devices, the best experience is on desktop. Save it as a
-                        bookmark and make it part of your pre-game prep routine.
+                        While dotapro is responsive across devices, the best experience is on desktop.
                     </p>
                 </div>
 

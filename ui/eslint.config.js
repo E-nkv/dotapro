@@ -1,12 +1,12 @@
 import js from "@eslint/js"
-import globals from "globals"
 import reactHooks from "eslint-plugin-react-hooks"
 import reactRefresh from "eslint-plugin-react-refresh"
-import tseslint from "typescript-eslint"
 import { defineConfig, globalIgnores } from "eslint/config"
+import globals from "globals"
+import tseslint from "typescript-eslint"
 
 export default defineConfig([
-    globalIgnores(["dist", "node_modules", "*.config.js", "*.config.ts"]),
+    globalIgnores(["dist", "node_modules", "*.config.js", "*.config.ts", "public"]),
     {
         files: ["**/*.{ts,tsx}"],
         extends: [
@@ -23,6 +23,7 @@ export default defineConfig([
             // Prettier handles formatting, ESLint handles code quality
             // Note: Add "prettier/prettier": "warn" rule after installing eslint-plugin-prettier
             "react-refresh/only-export-components": ["warn", { allowConstantExport: true }],
+            "react-hooks/exhaustive-deps": "warn",
         },
     },
 ])

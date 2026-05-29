@@ -6,8 +6,6 @@ run:
   concurrency: 4
 
 linters:
-  # CHANGE 1: 'default: none' replaces 'disable-all: true'
-  default: none
   enable:
     - errcheck
     - goconst
@@ -16,16 +14,15 @@ linters:
     - staticcheck
     - unused
 
-  # CHANGE 2: 'settings' is now a sub-key of 'linters'
-  settings:
-    staticcheck:
-      checks: ["all", "-ST1000", "-ST1005"]
-    revive:
-      rules:
-        - name: package-comments
-          disabled: true
-        - name: exported
-          disabled: true
+settings:
+  staticcheck:
+    checks: ["all", "-ST1000", "-ST1005"]
+  revive:
+    rules:
+      - name: package-comments
+        disabled: true
+      - name: exported
+        disabled: true
 
 issues:
   max-issues-per-linter: 0

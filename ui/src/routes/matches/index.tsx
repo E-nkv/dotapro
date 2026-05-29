@@ -1,10 +1,11 @@
 import { getMatches, type GetMatchesResponse, type MatchFilters } from "@/api"
-import { Button, MatchList, SEO, SeriesFilters } from "@/components"
+import { Button, MatchList, SEO } from "@/components"
+import { SeriesFilters } from "@/components/series/SeriesFilters"
 import { PAGINATION_LIMITS } from "@/constants"
+import { useMobileFilters } from "@/hooks"
 import { useQuery } from "@tanstack/react-query"
 import { createFileRoute, useSearch } from "@tanstack/react-router"
 import { Funnel } from "lucide-react"
-import { useEffect, useRef, useState } from "react"
 
 export const Route = createFileRoute("/matches/")({
     component: Matches,
@@ -27,40 +28,7 @@ export const Route = createFileRoute("/matches/")({
 
 function Matches() {
     const search = useSearch({ strict: false }) as MatchFilters
-    const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false)
-    const scrollPositionRef = useRef(0)
-
-    // Lock body scroll when filter modal is open
-    useEffect(() => {
-        if (isMobileFiltersOpen) {
-            // Save current scroll position
-            scrollPositionRef.current = window.scrollY
-            // Lock scroll
-            document.body.style.overflow = "hidden"
-        } else {
-            // Unlock scroll
-            document.body.style.overflow = ""
-            // Restore scroll position
-            window.scrollTo(0, scrollPositionRef.current)
-        }
-        return () => {
-            document.body.style.overflow = ""
-        }
-    }, [isMobileFiltersOpen])
-
-    // Close filter modal when navbar hamburger is clicked
-    useEffect(() => {
-        const handleNavbarMenuOpen = () => {
-            if (isMobileFiltersOpen) {
-                setIsMobileFiltersOpen(false)
-            }
-        }
-
-        window.addEventListener("navbar-menu-open", handleNavbarMenuOpen)
-        return () => {
-            window.removeEventListener("navbar-menu-open", handleNavbarMenuOpen)
-        }
-    }, [isMobileFiltersOpen])
+    const { isMobileFiltersOpen, setIsMobileFiltersOpen } = useMobileFilters()
 
     const { data, isLoading, error } = useQuery({
         queryKey: ["matches", search],

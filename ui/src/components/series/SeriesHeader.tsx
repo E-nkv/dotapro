@@ -1,27 +1,18 @@
 import type { SeriesDetail } from "@/api"
+import { BackLink } from "@/components/ui/BackLink"
 import { formatRelativeTime } from "@/lib"
-import { useRouter } from "@tanstack/react-router"
-import { ChevronLeft, Swords } from "lucide-react"
+import { Swords } from "lucide-react"
 
 interface SeriesHeaderProps {
     series: SeriesDetail
 }
 
 export function SeriesHeader({ series }: SeriesHeaderProps) {
-    const router = useRouter()
     const { team_a, team_b, league, team_a_score, team_b_score, start_time } = series
 
     return (
         <div className="rounded-xl pb-2" role="region" aria-label="Series header">
-            {/* Back Button */}
-            <button
-                className="text-foreground-muted hover:text-foreground mb-4 flex w-fit items-center gap-2"
-                onClick={() => router.history.back()}
-                aria-label="Back to series list"
-            >
-                <ChevronLeft className="h-4 w-4" />
-                Back to Series
-            </button>
+            <BackLink to="/series" />
 
             {/* Mobile Layout */}
             <div className="flex flex-col gap-4 px-2 md:hidden">

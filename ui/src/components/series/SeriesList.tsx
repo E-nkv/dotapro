@@ -1,6 +1,7 @@
-import { useNavigate, useRouter, useSearch } from "@tanstack/react-router"
-import type { Pagination, Series } from "../../api"
+import { useNavigate, useSearch } from "@tanstack/react-router"
+import { AlertCircle } from "lucide-react"
 import { Button, EmptyState, ErrorState, SeriesCardSkeleton } from ".."
+import type { Pagination, Series } from "../../api"
 import { SeriesCard } from "./SeriesCard"
 
 interface SeriesListProps {
@@ -13,7 +14,6 @@ interface SeriesListProps {
 
 export function SeriesList({ series, isLoading, error, pagination, limit }: SeriesListProps) {
     const navigate = useNavigate()
-    const router = useRouter()
     const search = useSearch({ strict: false })
     const skeletonCount = limit || 20
 
@@ -27,7 +27,10 @@ export function SeriesList({ series, isLoading, error, pagination, limit }: Seri
     }
 
     const handlePrevious = () => {
-        router.history.back()
+        // Strip cursor param then navigate to base list URL
+        const searchWithoutCursor = { ...search }
+        delete (searchWithoutCursor as { c?: string }).c
+        navigate({ to: "/series", search: searchWithoutCursor, replace: true })
     }
 
     if (error) {
@@ -51,7 +54,7 @@ export function SeriesList({ series, isLoading, error, pagination, limit }: Seri
         return (
             <div className="flex min-h-[50vh] items-center justify-center">
                 <EmptyState
-                    icon="🤕"
+                    icon={<AlertCircle className="h-6 w-6" />}
                     title="No series found"
                     description="Try adjusting your filters to find what you're looking for."
                 />

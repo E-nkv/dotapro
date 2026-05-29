@@ -4,6 +4,8 @@ import (
 	"context"
 	"database/sql"
 	"errors"
+	"sync"
+	"time"
 
 	"dotapro/cmd/api/errs"
 	"dotapro/constants"
@@ -30,6 +32,10 @@ const (
 
 type Model struct {
 	DB *bun.DB
+
+	recentMu      sync.RWMutex
+	recentLeagues []types.LeagueSearchResult
+	recentExpires time.Time
 }
 
 func NewModel(db *bun.DB) *Model { return &Model{DB: db} }
@@ -167,4 +173,37 @@ func (m *Model) GetPlayerName(ctx context.Context, id int64) (map[string]string,
 	}
 
 	return map[string]string{"name": result.Name}, nil
+}
+
+func (m *Model) GetRecentLeagues(ctx context.Context) ([]types.LeagueSearchResult, error) {
+	m.recentMu.RLock()
+	if time.Now().Before(m.recentExpires) && m.recentLeagues != nil {
+		m.recentMu.RUnlock()
+		return m.recentLeagues, nil
+	}
+	m.recentMu.RUnlock()
+
+	m.recentMu.Lock()
+	defer m.recentMu.Unlock()
+	if time.Now().Before(m.recentExpires) && m.recentLeagues != nil {
+		return m.recentLeagues, nil
+	}
+
+	var results []types.LeagueSearchResult
+	err := m.DB.NewSelect().
+		ColumnExpr("l.league_id, l.name").
+		TableExpr("leagues AS l").
+		Where("EXISTS (SELECT 1 FROM matches AS mm WHERE mm.league_id = l.league_id)").
+		OrderExpr("l.league_id DESC").
+		Limit(constants.RecentLeaguesLimit).
+		Scan(ctx, &results)
+	if err != nil && !errors.Is(err, sql.ErrNoRows) {
+		return nil, err
+	}
+	if results == nil {
+		results = []types.LeagueSearchResult{}
+	}
+	m.recentLeagues = results
+	m.recentExpires = time.Now().Add(constants.RecentLeaguesCacheTTL)
+	return results, nil
 }

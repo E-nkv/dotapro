@@ -1,8 +1,8 @@
-import { defineConfig } from "vite"
-import react from "@vitejs/plugin-react"
 import tailwindcss from "@tailwindcss/vite"
 import { tanstackRouter } from "@tanstack/router-plugin/vite"
+import react from "@vitejs/plugin-react"
 import path from "path"
+import { defineConfig } from "vite"
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -24,6 +24,10 @@ export default defineConfig({
                         // Radix UI
                         if (id.includes("@radix-ui")) {
                             return "radix-vendor"
+                        }
+                        // Three.js (large - separate chunk)
+                        if (id.includes("three")) {
+                            return "three-vendor"
                         }
                         // Lucide icons
                         if (id.includes("lucide-react")) {
@@ -48,8 +52,8 @@ export default defineConfig({
                 },
             },
         },
-        // Increase chunk size warning limit
-        chunkSizeWarningLimit: 500,
+        // Increase chunk size warning limit (Three.js + draco is ~600KB, loaded only on homepage)
+        chunkSizeWarningLimit: 700,
     },
     plugins: [
         tailwindcss(),

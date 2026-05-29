@@ -1,5 +1,5 @@
-import { useEffect } from "react"
 import { useLocation } from "@tanstack/react-router"
+import { useEffect } from "react"
 
 interface SEOProps {
     title?: string
@@ -12,7 +12,7 @@ interface SEOProps {
 
 const DEFAULT_TITLE = "dotapro.org - Dota 2 professional analytics"
 const DEFAULT_DESCRIPTION =
-    "Comprehensive Dota 2 match data aggregation system. View series and matches statistics from the professional scene."
+    "Focused Dota 2 analytics for the pro teams the community watches most. Browse series and matches from a curated set of top teams — no public match clutter."
 const DEFAULT_IMAGE = "https://dotapro.org/og-image.webp"
 const SITE_URL = "https://dotapro.org"
 
@@ -66,7 +66,10 @@ export function SEO({
 
         // Primary Meta Tags
         updateMetaTag("description", description || DEFAULT_DESCRIPTION)
-        updateMetaTag("keywords", "Dota 2, matches, statistics, teams, leagues, esports, gaming")
+        updateMetaTag(
+            "keywords",
+            "Dota 2, matches, statistics, teams, leagues, esports, gaming, curated teams, pro scene",
+        )
 
         // Open Graph / Facebook
         updateMetaTag("og:type", type, true)

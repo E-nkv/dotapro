@@ -187,8 +187,29 @@ func (c *Controller) GetPlayerName(w http.ResponseWriter, r *http.Request) {
 	utils.WriteResponse(w, name, http.StatusOK)
 }
 
+func (c *Controller) GetRecentLeagues(w http.ResponseWriter, r *http.Request) {
+	ctx, cancel := context.WithTimeout(r.Context(), constants.ShortRequestTimeout)
+	defer cancel()
+
+	leagues, err := c.model.GetRecentLeagues(ctx)
+	if err != nil {
+		if err == context.Canceled {
+			return
+		}
+		if err == context.DeadlineExceeded {
+			utils.WriteError(w, context.DeadlineExceeded.Error(), http.StatusGatewayTimeout)
+			return
+		}
+		utils.WriteError(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	utils.WriteResponse(w, leagues, http.StatusOK)
+}
+
 func (c *Controller) RegisterRoutes(r *chi.Mux) {
 	r.Get("/filtersmetadata/teams", c.SearchTeams)
+	r.Get("/filtersmetadata/leagues/recent", c.GetRecentLeagues)
 	r.Get("/filtersmetadata/leagues", c.SearchLeagues)
 	r.Get("/filtersmetadata/players", c.SearchPlayers)
 	r.Get("/filtersmetadata/team", c.GetTeamName)
