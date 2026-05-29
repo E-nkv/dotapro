@@ -6,7 +6,6 @@ type TurntableOptions = {
     friction?: number
     damping?: number
     autoRotateX?: boolean
-    autoRotateXSpeed?: number
 }
 
 export class TurntableController {
@@ -20,7 +19,6 @@ export class TurntableController {
     private readonly momentum: number
     private readonly friction: number
     private readonly damping: number
-    private readonly autoRotateXSpeed: number
 
     private autoRotateXEnabled: boolean
     private autoRotatePaused = false
@@ -37,6 +35,9 @@ export class TurntableController {
     private velocityPointerX = 0
     private velocityPointerY = 0
 
+    private frameCount = 0
+    private readonly framesPerRotation = 1800 // fixed-speed auto-rotate: full spin in ~30s at 60fps
+
     private readonly onPointerDown: (e: PointerEvent) => void
     private readonly onPointerMove: (e: PointerEvent) => void
     private readonly onPointerUp: (e: PointerEvent) => void
@@ -47,8 +48,7 @@ export class TurntableController {
         this.speed = options.speed ?? 0.9
         this.momentum = options.momentum ?? 0.3
         this.friction = options.friction ?? 5
-        this.damping = options.damping ?? 0.2
-        this.autoRotateXSpeed = options.autoRotateXSpeed ?? 0.18
+        this.damping = options.damping ?? 0.4
 
         const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches
         this.autoRotateXEnabled = (options.autoRotateX ?? true) && !prefersReducedMotion
@@ -146,7 +146,12 @@ export class TurntableController {
         }
 
         if (this.autoRotateXEnabled && !this.autoRotatePaused) {
-            this.targetX += this.autoRotateXSpeed * delta
+            this.frameCount++
+            const rotationPerFrame = (Math.PI * 2) / this.framesPerRotation
+            this.targetX += rotationPerFrame
+            if (this.frameCount >= this.framesPerRotation) {
+                this.frameCount = 0
+            }
         }
     }
 

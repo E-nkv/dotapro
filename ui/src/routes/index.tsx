@@ -1,8 +1,5 @@
-import { Button, FeaturedTeamsStrip, SEO } from "@/components"
+import { AegisViewer, Button, FeaturedTeamsStrip, SEO } from "@/components"
 import { createFileRoute, Link } from "@tanstack/react-router"
-import { lazy, Suspense } from "react"
-
-const AegisViewer = lazy(() => import("@/components/AegisViewer").then(m => ({ default: m.AegisViewer })))
 
 const HOMEPAGE_DESCRIPTION =
     "Focused Dota 2 analytics for the pro teams the community watches most. Browse series and matches from a curated set of top teams — no public match clutter."
@@ -53,9 +50,7 @@ function Index() {
                         </div>
 
                         <div className="relative flex justify-center py-6 lg:py-10">
-                            <Suspense fallback={<div className="w-full max-w-[320px] lg:h-[480px] lg:w-[480px] lg:max-w-none" />}>
-                                <AegisViewer className="w-full max-w-[320px] lg:h-[480px] lg:w-[480px] lg:max-w-none" />
-                            </Suspense>
+                            <AegisViewer className="w-full max-w-[320px] lg:h-[480px] lg:w-[480px] lg:max-w-none" />
                         </div>
 
                         <HeroCTAs className="flex w-full flex-row items-center justify-center gap-2 sm:w-auto sm:gap-3 md:gap-4 lg:hidden" />

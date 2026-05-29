@@ -24,7 +24,7 @@ export function AegisViewer({ className, style }: AegisViewerProps) {
     }, [])
 
     return (
-        <div className={cn("relative aspect-square w-full", className)} style={style}>
+        <div className={cn("relative aspect-square w-full touch-none select-none", className)} style={style}>
             {loading && (
                 <div
                     className="absolute inset-0 z-10 flex items-center justify-center"

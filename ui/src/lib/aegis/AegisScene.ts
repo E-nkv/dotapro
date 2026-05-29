@@ -1,10 +1,10 @@
 import {
     AmbientLight,
-    Clock,
     DirectionalLight,
     Group,
     PerspectiveCamera,
     Scene,
+    Timer,
     WebGLRenderer,
 } from "three"
 import { DRACOLoader } from "three/addons/loaders/DRACOLoader.js"
@@ -27,7 +27,7 @@ export class AegisScene {
     private readonly scene: Scene
     private readonly camera: PerspectiveCamera
     private readonly pivot: Group
-    private readonly clock: Clock
+    private readonly timer: Timer
     private readonly dracoLoader: DRACOLoader
     private readonly loader: GLTFLoader
 
@@ -51,13 +51,13 @@ export class AegisScene {
         this.renderer.domElement.className = "block size-full"
         this.renderer.domElement.style.opacity = "0"
         this.renderer.domElement.style.transition = "opacity 0.5s ease"
+        this.renderer.domElement.style.touchAction = "none"
         this.container.appendChild(this.renderer.domElement)
 
         this.scene = new Scene()
         this.camera = new PerspectiveCamera(50, 1, 0.1, 100)
         this.pivot = new Group()
         this.scene.add(this.pivot)
-        this.clock = new Clock()
 
         this.scene.add(new AmbientLight(undefined, 2))
         const keyLight = new DirectionalLight(undefined, 2)
@@ -66,6 +66,9 @@ export class AegisScene {
         const fillLight = new DirectionalLight(undefined, 1)
         fillLight.position.set(-3, 2, -2)
         this.scene.add(fillLight)
+
+        this.timer = new Timer()
+        this.timer.connect(document)
 
         this.dracoLoader = new DRACOLoader()
         this.dracoLoader.setDecoderPath(this.options.dracoPath)
@@ -127,10 +130,11 @@ export class AegisScene {
         this.turntable?.setSize(width, height)
     }
 
-    private tick = () => {
+    private tick = (timestamp: number) => {
         if (!this.running || this.disposed) return
 
-        const delta = this.clock.getDelta()
+        this.timer.update(timestamp)
+        const delta = this.timer.getDelta()
         this.turntable?.update(delta)
         this.renderer.render(this.scene, this.camera)
         this.rafId = requestAnimationFrame(this.tick)
@@ -139,14 +143,12 @@ export class AegisScene {
     private startLoop() {
         if (this.running || this.disposed) return
         this.running = true
-        this.clock.start()
         this.rafId = requestAnimationFrame(this.tick)
     }
 
     private stopLoop() {
         this.running = false
         cancelAnimationFrame(this.rafId)
-        this.clock.stop()
     }
 
     dispose() {
@@ -167,6 +169,7 @@ export class AegisScene {
         }
 
         this.dracoLoader.dispose()
+        this.timer.dispose()
         this.renderer.dispose()
         this.renderer.domElement.remove()
     }
