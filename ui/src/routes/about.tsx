@@ -55,7 +55,7 @@ function About() {
                                     {team.logo_url && (
                                         <img
                                             src={team.logo_url}
-                                            alt=""
+                                            alt={`${team.name} logo`}
                                             className="h-8 w-8 shrink-0 object-contain"
                                         />
                                     )}
@@ -195,7 +195,7 @@ function About() {
                 </Card>
 
                 {/* Contributing */}
-                <Card className="border-border/50 from-primary/5 bg-gradient-to-br to-transparent">
+                <Card className="border-border/50 from-primary/5 bg-linear-to-br to-transparent">
                     <CardContent className="pt-6">
                         <h2 className="text-foreground mb-4 text-xl font-semibold">Open to contributions</h2>
                         <p className="text-muted-foreground leading-relaxed">

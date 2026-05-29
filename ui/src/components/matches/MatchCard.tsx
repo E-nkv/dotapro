@@ -1,4 +1,4 @@
-import { cn, formatRelativeTime, getHeroImageUrl } from "@/lib"
+import { cn, formatRelativeTime, getHeroById, getHeroImageUrl } from "@/lib"
 import type { MatchSummary } from "@/types"
 import { Link } from "@tanstack/react-router"
 import { Eye, Swords, Trophy } from "lucide-react"
@@ -52,6 +52,8 @@ export function MatchCard({
                             <img
                                 src={match.radiant_team.logo_url}
                                 alt={`${match.radiant_team.name} logo`}
+                                width={40}
+                                height={40}
                                 className="h-8 w-auto max-w-10 shrink-0 rounded transition-all duration-300 select-none hover:brightness-125 hover:saturate-150"
                             />
                         )}
@@ -66,7 +68,9 @@ export function MatchCard({
                             <img
                                 key={heroId}
                                 src={getHeroImageUrl(heroId)}
-                                alt={`Hero ${heroId}`}
+                                alt={getHeroById(heroId)?.displayName ?? `Hero ${heroId}`}
+                                width={29}
+                                height={16}
                                 className="h-6 w-auto select-none"
                             />
                         ))}
@@ -83,6 +87,8 @@ export function MatchCard({
                             <img
                                 src={match.dire_team.logo_url}
                                 alt={`${match.dire_team.name} logo`}
+                                width={40}
+                                height={40}
                                 className="h-8 w-auto max-w-10 shrink-0 rounded transition-all duration-300 select-none hover:brightness-125 hover:saturate-150"
                             />
                         )}
@@ -95,7 +101,9 @@ export function MatchCard({
                             <img
                                 key={heroId}
                                 src={getHeroImageUrl(heroId)}
-                                alt={`Hero ${heroId}`}
+                                alt={getHeroById(heroId)?.displayName ?? `Hero ${heroId}`}
+                                width={29}
+                                height={16}
                                 className="h-6 w-auto select-none"
                             />
                         ))}

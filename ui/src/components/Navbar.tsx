@@ -77,7 +77,7 @@ export function Navbar() {
                                 <source srcSet="/logo-48.webp" media="(min-width: 768px)" />
                                 <img
                                     src="/logo-32x32.webp"
-                                    alt=""
+                                    alt="dotapro.org logo"
                                     width="32"
                                     height="32"
                                     className="h-10 w-auto lg:h-12"

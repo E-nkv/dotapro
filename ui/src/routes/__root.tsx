@@ -8,9 +8,9 @@ const RootLayout = () => {
         <ErrorBoundary>
             <div className="bg-background flex min-h-screen flex-col overflow-x-hidden">
                 <Navbar />
-                <div className="page-enter flex-1 pt-14 sm:pt-16">
+                <main className="page-enter flex-1 pt-14 sm:pt-16">
                     <Outlet />
-                </div>
+                </main>
                 <Footer />
                 {import.meta.env.DEV && <TanStackRouterDevtools />}
             </div>

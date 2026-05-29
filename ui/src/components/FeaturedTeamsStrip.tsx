@@ -29,7 +29,7 @@ export function FeaturedTeamsStrip({
                     {team.logo_url ? (
                         <img
                             src={team.logo_url}
-                            alt={team.name}
+                            alt={`${team.name} logo`}
                             className={cn("object-contain", logoClassName)}
                         />
                     ) : (

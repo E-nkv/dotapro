@@ -49,6 +49,8 @@ export function SeriesCard({
                                 <img
                                     src={series.team_a.logo_url}
                                     alt={`${series.team_a.name} logo`}
+                                    width={44}
+                                    height={44}
                                     className="h-6 w-auto max-w-8 shrink-0 rounded transition-all duration-300 select-none hover:brightness-125 hover:saturate-150 sm:h-7 sm:max-w-11"
                                 />
                             )}
@@ -78,6 +80,8 @@ export function SeriesCard({
                                 <img
                                     src={series.team_b.logo_url}
                                     alt={`${series.team_b.name} logo`}
+                                    width={44}
+                                    height={44}
                                     className="h-6 w-auto max-w-8 shrink-0 rounded transition-all duration-300 select-none hover:brightness-125 hover:saturate-150 sm:h-7 sm:max-w-11"
                                 />
                             )}

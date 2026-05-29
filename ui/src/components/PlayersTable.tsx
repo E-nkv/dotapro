@@ -1,8 +1,8 @@
 import type { PlayerData, SeriesMatchDetail, TeamInfo } from "@/api"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, Tooltip } from "./ui"
-import { cn, getHeroImageUrl, getItemImageUrl } from "@/lib"
+import { cn, getHeroById, getHeroImageUrl, getItemById, getItemImageUrl, getNeutralById } from "@/lib"
 import { Crown, Trophy } from "lucide-react"
 import { lazy, Suspense } from "react"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, Tooltip } from "./ui"
 
 // Lazy load tooltip components to reduce initial bundle size
 const HeroTooltipContent = lazy(() =>
@@ -149,6 +149,7 @@ function TeamPlayersTable({ players, captain, teamInfo, score, isWinner }: TeamP
                                         >
                                             <img
                                                 src={getHeroImageUrl(player.hero_id)}
+                                                alt={getHeroById(player.hero_id)?.displayName ?? `Hero ${player.hero_id}`}
                                                 className="h-7 w-auto cursor-pointer sm:h-8"
                                             />
                                         </Tooltip>
@@ -267,7 +268,7 @@ function ItemSlot({ itemId, itemUrl, widthClass, heightClass, emptyBgClass }: It
             contentClassName="p-0 border-none bg-transparent"
         >
             <div className={`${widthClass} ${heightClass} rounded ${isEmpty ? emptyBgClass : ""}`}>
-                {!isEmpty && <img src={itemUrl} className="h-full w-full rounded object-cover" />}
+                {!isEmpty && <img src={itemUrl} alt={getItemById(itemId)?.displayName ?? "Item"} className="h-full w-full rounded object-cover" />}
             </div>
         </Tooltip>
     )
@@ -281,7 +282,7 @@ function NeutralItemSlot({ itemId }: { itemId: number }) {
             contentClassName="p-0 border-none bg-transparent"
         >
             <div className="border-border h-7 w-10 min-w-10 shrink-0 rounded border bg-black sm:h-8 sm:w-11 sm:min-w-11">
-                {itemId > 0 && <img src={getItemImageUrl(itemId)} className="h-full w-full rounded object-cover" />}
+                {itemId > 0 && <img src={getItemImageUrl(itemId)} alt={getNeutralById(itemId)?.displayName ?? "Neutral Item"} className="h-full w-full rounded object-cover" />}
             </div>
         </Tooltip>
     )
