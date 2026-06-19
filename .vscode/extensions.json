@@ -1,12 +1,9 @@
 {
   "recommendations": [
-    "golang.go",
     "dbaeumer.vscode-eslint",
     "esbenp.prettier-vscode",
     "bradlc.vscode-tailwindcss",
     "tanstack.vscode-tanstack-router",
-    "redhat.vscode-yaml",
-    "github.vscode-github-actions",
     "usernamehw.errorlens"
   ]
 }

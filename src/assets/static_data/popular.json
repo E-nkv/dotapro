@@ -1,0 +1,71 @@
+{
+    "popular_teams": [
+        {
+            "id": 2163,
+            "name": "Team Liquid",
+            "logo_url": "https://steamcdn-a.akamaihd.net/apps/dota2/images/team_logos/2163.png"
+        },
+        {
+            "id": 7554697,
+            "name": "Nigma Galaxy",
+            "logo_url": "https://cdn.steamusercontent.com/ugc/1827894588975105240/421C0D8318D71D5DD31FD08A7933AB622AE26590/"
+        },
+        {
+            "id": 8255888,
+            "name": "BetBoom Team",
+            "logo_url": "https://cdn.steamusercontent.com/ugc/9995426432403529725/51E13136D4CCC8C7D8062861541A1D13B8ED87E0/"
+        },
+        {
+            "id": 9572001,
+            "name": "PARIVISION",
+            "logo_url": "https://cdn.steamusercontent.com/ugc/10501094611027794535/1569CC553CB72963C8EC4C3F807EE50DA925BDC2/"
+        },
+        {
+            "id": 7119388,
+            "name": "Team Spirit",
+            "logo_url": "https://cdn.steamusercontent.com/ugc/1839179120711951766/CD7E0885CB527334205CC7885E9C101B7BC17702/"
+        },
+        {
+            "id": 9247354,
+            "name": "Team Falcons",
+            "logo_url": "https://cdn.steamusercontent.com/ugc/2314350571781870059/2B5C9FE9BA0A2DC303A13261444532AA08352843/"
+        },
+        {
+            "id": 8291895,
+            "name": "Tundra Esports",
+            "logo_url": "https://cdn.steamusercontent.com/ugc/2031716132171967904/07B168B8063D9B22CDAD53AB421ECAF3D4B2E07E/"
+        },
+        {
+            "id": 9467224,
+            "name": "Aurora Gaming",
+            "logo_url": "https://cdn.steamusercontent.com/ugc/13052583756685508/22B0338D7E09FB2F021E5DB5BBEFFD170D5E5E1A/"
+        },
+        {
+            "id": 9823272,
+            "name": "Team Yandex",
+            "logo_url": "https://cdn.steamusercontent.com/ugc/12970505637628494427/B04C3358F4E815ADFC2F8B1B8BE3AB0CE75C8881/"
+        },
+        {
+            "id": 10150538,
+            "name": "LGD Gaming",
+            "logo_url": "https://cdn.steamusercontent.com/ugc/1827894588975105240/421C0D8318D71D5DD31FD08A7933AB622AE26590/"
+        }
+    ],
+    "popular_players": [
+        { "id": 321580662, "name": "Yatoro" },
+        { "id": 201358612, "name": "Nisha" },
+        { "id": 93618577, "name": "bzm" },
+        { "id": 77490514, "name": "Boxi" },
+        { "id": 317880638, "name": "Save-" },
+        { "id": 898754153, "name": "Ame" }
+    ],
+    "popular_heroes": [
+        { "id": 74, "name": "Invoker" },
+        { "id": 34, "name": "Tinker" },
+        { "id": 14, "name": "Pudge" },
+        { "id": 105, "name": "Meepo" },
+        { "id": 22, "name": "Zeus" },
+        { "id": 1, "name": "Anti-Mage" },
+        { "id": 8, "name": "Juggernaut" }
+    ]
+}

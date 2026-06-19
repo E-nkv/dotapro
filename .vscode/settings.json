@@ -1,72 +1,21 @@
 {
-  // === ESLint Configuration ===
   "eslint.enable": true,
-  "eslint.validate": [
-    "javascript",
-    "javascriptreact",
-    "typescript",
-    "typescriptreact"
-  ],
+  "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
   "eslint.options": {
-    "overrideConfigFile": "./ui/eslint.config.js"
+    "overrideConfigFile": "./eslint.config.js"
   },
-  "eslint.workingDirectories": ["ui"],
   "eslint.useFlatConfig": true,
   "eslint.run": "onSave",
-
-  // === Prettier Configuration ===
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,
-  "editor.formatOnPaste": false,
-  "editor.formatOnType": false,
-
-  // === TypeScript/JavaScript ===
   "[typescript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[typescriptreact]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "[javascript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[javascriptreact]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[json]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[jsonc]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "typescript.tsdk": "ui/node_modules/typescript/lib",
+  "typescript.tsdk": "node_modules/typescript/lib",
   "typescript.enablePromptUseWorkspaceTsdk": true,
-
-  // === Go ===
-  "[go]": {
-    "editor.defaultFormatter": "golang.go",
-    "editor.formatOnSave": true,
-    "editor.codeActionsOnSave": {
-      "source.organizeImports": "explicit"
-    }
-  },
-  "go.useLanguageServer": true,
-  "go.lintTool": "golangci-lint",
-  "go.lintOnSave": "workspace",
-  "go.vetOnSave": "off",
-  "go.testFlags": ["-v"],
-  "go.lintFlags": ["--config=${workspaceFolder}/.golangci.yml"],
-  "go.coverOnSingleTest": true,
-  "go.coverOnSingleTestFile": true,
-  "go.coverageDecorator": {
-    "type": "gutter"
-  },
-  "gopls": {
-    "ui.completion.usePlaceholders": false,
-    "ui.diagnostic.staticcheck": false
-  },
-
-  // === Editor Settings ===
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit",
     "source.organizeImports": "explicit"
@@ -81,13 +30,5 @@
     "**/.DS_Store": true,
     "**/node_modules": true,
     "**/.tanstack": true
-  },
-
-  // === YAML Schema ===
-  "yaml.schemas": {
-    "https://golangci-lint.run/jsonschema/golangci.jsonschema.json": [
-      ".golangci.yml",
-      ".golangci.yaml"
-    ]
   }
 }

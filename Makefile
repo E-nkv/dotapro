@@ -1,20 +1,13 @@
-.PHONY: build run-api run-scraper run-ui app-tidy
+.PHONY: dev build lint format
+
+dev:
+	pnpm dev
 
 build:
-	@mkdir -p .build
+	pnpm build
 
-	cd app && GOOS=linux GOARCH=amd64 go build -o ../.build/api ./cmd/api
-	cd app && GOOS=linux GOARCH=amd64 go build -o ../.build/scraper ./cmd/scraper
+lint:
+	pnpm lint
 
-run-api:
-	cd app && go run ./cmd/api
-
-run-scraper:
-	cd app && go run ./cmd/scraper
-
-run-ui:
-	cd ui && pnpm dev
-
-app-tidy:
-	cd app && go mod tidy
-
+format:
+	pnpm format

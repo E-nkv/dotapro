@@ -8,10 +8,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
-### Added
 ### Changed
-### Fixed
+- **Serverless architecture** — Removed Go API, scraper, SQLite, and VPS deploy config. The UI queries OpenDota directly.
+- **Flattened repo layout** — Moved frontend from `ui/` to project root.
+
 ### Removed
+- `app/` (API + scraper), `database/`, `deploy/`, `ui/` subdirectory, `.golangci.yml`, `scripts.sh`
 
 ---
 
@@ -49,16 +51,16 @@ Copy this template when adding new entries:
 ## YYYY-MM-DD - [Brief Description]
 
 ### Added
-- 
+-
 
 ### Changed
-- 
+-
 
 ### Fixed
-- 
+-
 
 ### Removed
-- 
+-
 ```
 
 ---

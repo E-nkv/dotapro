@@ -1,8 +1,0 @@
-api.yourdomain.com {
-    encode zstd gzip
-    reverse_proxy localhost:8080
-    log {
-        output file /var/log/caddy/api.log
-        format json
-    }
-}
